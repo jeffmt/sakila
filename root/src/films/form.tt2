@@ -1,0 +1,6 @@
+[% META title = 'Create/Update Movie' %]
+ 
+[%# Render the HTML::FormHandler Form %]
+[% form.render %]
+ 
+<p><a href="[% c.uri_for(c.controller.action_for('list')) %]">Return to Movies</a></p>

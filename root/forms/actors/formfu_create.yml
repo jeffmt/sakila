@@ -1,0 +1,70 @@
+---
+# indicator is the field that is used to test for form submission
+indicator: submit
+attributes:
+  id: create_actor
+# Start listing the form elements
+elements:
+    # The first element will be a text field for the title
+    - type: Text
+      name: first_name
+      label: First Name
+      # This is an optional 'mouse over' title pop-up
+      attributes:
+        title: Enter first name here
+      # Add constraints for the field
+      constraints:
+        # Force the length to be between 5 and 40 chars
+        - type: Length
+          min: 2
+          max: 40
+          # Override the default of 'Invalid input'
+          message: Length must be between 5 and 40 characters
+        - Required
+ 
+
+    - type: Text
+      name: last_name
+      label: Last Name
+      # This is an optional 'mouse over' title pop-up
+      attributes:
+        title: Enter last name here
+      # Add constraints for the field
+      constraints:
+        # Force the length to be between 5 and 40 chars
+        - type: Length
+          min: 2
+          max: 40
+          # Override the default of 'Invalid input'
+          message: Length must be between 5 and 40 characters
+        - Required
+ 
+    # Add a drop-down list for the film selection.  Note that we will
+    # dynamically fill in all the films from the controller but we
+    # could manually set items in the drop-list by adding this YAML code:
+    # options:
+    #   - [ '1', 'Avatar' ]
+    #   - [ '2', 'Titanic' ]
+    - type: Select
+      name: films
+      label: Film
+      multiple: 1
+      # Display 15 entries (user can scroll to see others)
+      size: 15
+ 
+    # The submit button
+    - type: Submit
+      name: submit
+      value: Submit
+
+# Global filters and constraints.
+#constraints:
+#    # The user cannot leave any fields blank
+#    - Required
+#    # If not all fields are required, move the Required constraint to the
+#    # fields that are
+filter:
+    # Remove whitespace at both ends
+    - TrimEdges
+    # Escape HTML characters for safety
+    - HTMLEscape

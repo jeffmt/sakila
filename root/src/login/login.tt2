@@ -1,0 +1,2 @@
+[% META title = 'Staff Login' -%]
+[% render_login_form %]

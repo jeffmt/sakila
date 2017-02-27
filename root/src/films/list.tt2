@@ -1,0 +1,36 @@
+[% # This is a TT comment. -%]
+ 
+[%- # Provide a title -%]
+[% META title = 'Movies' -%]
+ 
+[% # Note That the '-' at the beginning or end of TT code  -%]
+[% # "chomps" the whitespace/newline at that end of the    -%]
+[% # output (use View Source in browser to see the effect) -%]
+ 
+<p>
+  <a href="[% c.uri_for(c.controller.action_for('create')) %]">Add a Movie</a>
+</p>
+[% # Some basic HTML with a loop to display films -%]
+<table class="table table-striped">
+<tr>
+  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'title' }) %]">Title</a></th>
+  <th>Description</th>
+  <th>Language</th>
+  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'rental_rate' }) %]">Rate</a></th>
+  <th>Actors</th>
+</tr>
+[% # Display each film in a table row %]
+[% FOREACH film IN films -%]
+  <tr>
+    <td>
+      <a href="[% c.uri_for(c.controller.action_for('edit'), [film.id]) %]">[% film.title %]</a>
+    </td>
+    <td>[% film.description%]</td>
+    <td>[% film.language.name | html %]</td>
+    <td>[% film.rental_rate%]</td>
+    <td>
+    [% film.actors_list | html %]
+    </td>
+  </tr>
+[% END -%]
+</table>
