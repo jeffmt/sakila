@@ -16,6 +16,7 @@ requires 'Catalyst::Action::RenderView';
 requires 'HTML::FormFu';
 requires 'Catalyst::Controller::HTML::FormFu';
 requires 'HTML::FormFu::Model::DBIC';
+requires 'HTML::FormHandler::Model::DBIC';
 requires 'Moose';
 requires 'namespace::autoclean';
 requires 'Catalyst::Plugin::Authentication';
