@@ -16,7 +16,7 @@ movie stars does require login.
 1. download and install [VirtualBox](https://www.virtualbox.org)
 2. download and install [Vagrant](https://www.vagrantup.com)
 3. download and extract or use [Git](https://git-scm.com) to clone this repository to your computer
-4. type `cd sakila` followed by `vagrant up`
+4. type `cd sakila`, followed by `vagrant up` and wait for the message `done`
 5. point your browser to http://localhost:3000 to view the application
 
 # Notes
