@@ -121,16 +121,38 @@ __PACKAGE__->has_many(
 # Created by DBIx::Class::Schema::Loader v0.07043 @ 2017-02-13 22:22:44
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:v8GRrVlezaRpe8wrffKtwA
 
+=head2 films
+
+Type: many_to_many
+
+Related object: L<sakila::Schema::Result::Film>
+
+=cut
+
 __PACKAGE__->many_to_many(
   films => 'film_actors',
   "film",
 );
+
+=head1 METHODS
+
+=head2 full_name
+
+Return full name of actor
+
+=cut
 
 sub full_name {
   my ($self) = @_;
 
   return $self->first_name . ' ' . $self->last_name;
 };
+
+=head2 films_list
+
+Return comma-separated string of films the actor stars in
+
+=cut
 
 sub films_list {
   my ($self) = @_;
@@ -142,6 +164,12 @@ sub films_list {
 
   return join(', ', @films);
 }
+
+=head2 films_count
+
+Return number of films the actor stars in
+
+=cut
 
 sub films_count {
   my ($self) = @_;

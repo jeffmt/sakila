@@ -31,6 +31,8 @@ requires 'Catalyst::Model::DBIC::Schema';
 requires 'CatalystX::Component::Traits';
 requires 'HTML::FormFu::MultiForm';
 requires 'MooseX::Traits::Pluggable';
+requires 'Test::WWW::Mechanize::Catalyst';
+requires 'Test::Pod::Coverage';
 
 requires 'Config::General'; # This should reflect the config file format you've chosen
                  # See Catalyst::Plugin::ConfigLoader for supported formats

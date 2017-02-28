@@ -303,10 +303,26 @@ __PACKAGE__->belongs_to(
 # Created by DBIx::Class::Schema::Loader v0.07043 @ 2017-02-13 22:22:44
 # DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZUmvoDo6IHaoe+TjkinUIQ
 
+=head2 actors
+
+Type: many_to_many
+
+Related object: L<sakila::Schema::Result::Actor>
+
+=cut
+
 __PACKAGE__->many_to_many(
   actors => 'film_actors',
   'actor',
 );
+
+=head1 METHODS
+
+=head2 actors_list
+
+Return comma-separated string of actors that stars in a film
+
+=cut
 
 sub actors_list {
   my ($self) = @_;
@@ -318,6 +334,12 @@ sub actors_list {
 
   return join(', ', @actors);
 }
+
+=head2 actors_count
+
+Return number of actors that stars in a film
+
+=cut
 
 sub actors_count {
   my ($self) = @_;

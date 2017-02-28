@@ -13,4 +13,39 @@ has_field 'actors' => ( type => 'Multiple', label_column => 'full_name' );
 has_field 'submit' => ( type => 'Submit', value => 'Submit' );
  
 __PACKAGE__->meta->make_immutable;
+
+=head1 NAME
+
+sakila::Form::Film;
+
+=cut
+
+=head1 FIELDS
+
+=head2 title
+
+  type: 'Text'
+
+=head2 description
+
+  type: 'Text'
+
+=head2 language
+
+  type: 'Select'
+
+=head2 rental_rate
+
+  type: 'Money'
+
+=head2 actors
+
+  type: 'Multiple'
+
+=head2 submit
+
+  type: 'Submit'
+
+=cut
+
 1;
