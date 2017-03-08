@@ -6,7 +6,7 @@ use base 'DBIx::Class::ResultSet';
  
 =head2 updated_after
  
-A predefined search for recently added books
+A predefined search for recently added actors
  
 =cut
  

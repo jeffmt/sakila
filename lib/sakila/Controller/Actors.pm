@@ -82,7 +82,7 @@ it in the stash. Chain off authbase as changes to specific actor requires login.
 sub object :Chained('authbase') :PathPart('id') :CaptureArgs(1) {
     my ($self, $c, $id) = @_;
  
-    # Find the book object and store it in the stash
+    # Find the actor object and store it in the stash
     $c->stash(object => $c->stash->{resultset}->find($id));
  
     die "Actor $id not found!" if !$c->stash->{object};

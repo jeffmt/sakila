@@ -106,7 +106,7 @@ sub form {
 
     return unless $form->validated;
 
-    # Set a status message for the user & return to books list
+    # Set a status message for the user & return to films list
     $c->response->redirect($c->uri_for($self->action_for('list'), {status_msg => $c->stash->{msg}}));
 }
 
