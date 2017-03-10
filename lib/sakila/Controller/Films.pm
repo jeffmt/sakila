@@ -123,7 +123,16 @@ sub list : Chained('base') : PathPart('list'): Args(0) {
                  :                                                                                          'title'
                  ;
 
-    $c->stash(films=>[$c->stash->{resultset}->search({}, {order_by => $order_by})]);
+    my $page = $c->req->param('page') || 1;
+    $page = 1 if ( $page !~ /^\d+$/ );
+
+    my $rows = $c->req->param('rows') || 50;
+    $rows = 50 if ( $rows !~ /^\d+$/ );
+
+    my $result = $c->stash->{resultset}->search({}, {order_by => $order_by, rows => $rows, page => $page});
+    $c->stash(films=>[ $result->all() ]);
+    $c->stash(order_by=>$order_by);
+    $c->stash(pager=>$result->pager);
     $c->stash(template=>'films/list.tt2');
 }
 

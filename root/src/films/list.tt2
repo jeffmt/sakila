@@ -9,6 +9,9 @@
  
 <p>
   <a href="[% c.uri_for(c.controller.action_for('create')) %]">Add a Movie</a>
+</p> 
+<p>
+  Displaying entries [% pager.first %]-[% pager.last %] of [% pager.total_entries %]
 </p>
 [% # Some basic HTML with a loop to display films -%]
 <table class="table table-striped">
@@ -34,3 +37,20 @@
   </tr>
 [% END -%]
 </table>
+<div class="row">
+  <div class="col-md-1"> 
+    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.first_page }) %]">First</a>
+  </div>
+  <div class="col-md-1"> 
+    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.previous_page }) %]">Previous</a>
+  </div>
+  <div class="text-center col-md-8">
+    Page [% pager.current_page %] of [% pager.last_page %]
+  </div>
+  <div class="col-md-1"> 
+    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.next_page }) %]">Next</a>
+  </div>
+  <div class="col-md-1"> 
+    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.last_page }) %]">Last</a>
+  </div>
+</div>
