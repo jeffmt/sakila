@@ -89,6 +89,18 @@ $mech->submit_form_ok({
 # successfully created new movie, which should be in list of movies
 $mech->title_is('Movies');
 $mech->content_contains('Film created.');
+my $not_found_new_movie = 1;
+while ($not_found_new_movie) {
+  my $page_content = $mech->content();
+
+  if ($page_content =~ /$title/) {
+    $not_found_new_movie = 0;
+  }
+  else {
+    $mech->follow_link_ok({text => 'Next >'});
+  }
+}
+
 $mech->content_contains($title);
 $mech->content_contains($description);
 $mech->content_contains('7.99');
@@ -112,6 +124,19 @@ $mech->submit_form_ok({
 # successfully updated new movie, which should be in list of movies
 $mech->title_is('Movies');
 $mech->content_contains('Film updated.');
+
+my $not_found_edited_movie = 1;
+while ($not_found_edited_movie) {
+  my $page_content = $mech->content();
+
+  if ($page_content =~ /$new_title/) {
+    $not_found_edited_movie = 0;
+  }
+  else {
+    $mech->follow_link_ok({text => 'Next >'});
+  }
+}
+
 $mech->content_contains($new_title);
 $mech->content_contains($new_description);
 $mech->content_contains('8.99');
