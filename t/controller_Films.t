@@ -13,6 +13,9 @@ sub rand_string {
   return $result;
 }
 
+my $page_X_of_X_regex = qr/Page\s(\d+)\sof\s\g{-1}\D/;
+my $page_1_of_X_regex = qr/Page\s1\sof\s\d+\D/;
+
 ok( request('/films/list')->is_success, 'Request should succeed' );
 ok( request('/films')->is_redirect, 'Request should get redirected' );
 ok( request('/films/nonexistant')->is_error, 'Request should fail' );
@@ -96,6 +99,9 @@ while ($not_found_new_movie) {
   if ($page_content =~ /$title/) {
     $not_found_new_movie = 0;
   }
+  elsif ($page_content =~ /$page_X_of_X_regex/) {
+    last;
+  }
   else {
     $mech->follow_link_ok({text => 'Next >'});
   }
@@ -132,6 +138,9 @@ while ($not_found_edited_movie) {
   if ($page_content =~ /$new_title/) {
     $not_found_edited_movie = 0;
   }
+  elsif ($page_content =~ /$page_X_of_X_regex/) {
+    last;
+  }
   else {
     $mech->follow_link_ok({text => 'Next >'});
   }
@@ -140,5 +149,51 @@ while ($not_found_edited_movie) {
 $mech->content_contains($new_title);
 $mech->content_contains($new_description);
 $mech->content_contains('8.99');
+
+
+$mech->follow_link_ok({text => 'Last >>'});
+
+$mech->content_like($page_X_of_X_regex);
+
+$mech->follow_link_ok({text => 'Next >'});
+
+$mech->content_like($page_X_of_X_regex);
+
+$mech->follow_link_ok({text => 'Skip Forward 5 >'});
+
+$mech->content_like($page_X_of_X_regex);
+
+if ($mech->content =~ /$page_X_of_X_regex/) {
+  my $last_page = $1;
+  my $expected_page = $last_page - 5;
+
+  $mech->follow_link_ok({text => '< Skip Back 5'});
+
+  $mech->content_like(qr/Page\s$expected_page\sof\s\d+/);
+}
+
+$mech->follow_link_ok({text => '<< First'});
+
+$mech->content_like($page_1_of_X_regex);
+
+$mech->follow_link_ok({text => '< Previous'});
+
+$mech->content_like($page_1_of_X_regex);
+
+$mech->follow_link_ok({text => '< Skip Back 5'});
+
+$mech->content_like($page_1_of_X_regex);
+
+$mech->follow_link_ok({text => 'Skip Forward 5 >'});
+
+$mech->content_like(qr/Page\s6\sof\s\d+/);
+
+$mech->follow_link_ok({text => 'Next >'});
+
+$mech->content_like(qr/Page\s7\sof\s\d+/);
+
+$mech->follow_link_ok({text => '< Previous'});
+
+$mech->content_like(qr/Page\s6\sof\s\d+/);
 
 done_testing();

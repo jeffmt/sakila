@@ -129,9 +129,9 @@ sub list : Chained('base') : PathPart('list'): Args(0) {
     $page = 1 if ( $page < 1 );
 
     # set default rows per page
-    my $rows = $c->req->param('rows') || 100;
-    $rows = 100 if ( $rows !~ /^\d+$/ );
-    $rows = 100 if ( $rows < 1 );
+    my $rows = $c->req->param('rows') || 50;
+    $rows = 50 if ( $rows !~ /^\d+$/ );
+    $rows = 50 if ( $rows < 1 );
 
     my $result = $c->stash->{resultset}->search({}, {order_by => $order_by, rows => $rows, page => $page});
 
