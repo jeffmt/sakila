@@ -13,12 +13,12 @@ $mech->get_ok('/login');
 
 # check that you are at login page
 $mech->title_is('Staff Login');
-$mech->content_contains('Username');
-$mech->content_contains('Password');
+$mech->text_contains('Username');
+$mech->text_contains('Password');
 
 # check that you are not logged in
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_lacks('Logout');
+$mech->text_lacks('Customers');
 
 # try to login without username and password
 $mech->submit_form_ok({
@@ -30,9 +30,8 @@ $mech->submit_form_ok({
 );
 
 # check that you failed to login without supplying username and password
-$mech->content_lacks('Hi');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_lacks('Logout');
+$mech->text_lacks('Customers');
 
 # try to login without password
 $mech->submit_form_ok({
@@ -44,9 +43,8 @@ $mech->submit_form_ok({
 );
 
 # check that you failed to login with a missing password
-$mech->content_lacks('Hi');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_lacks('Logout');
+$mech->text_lacks('Customers');
 
 # try to login without username
 $mech->submit_form_ok({
@@ -58,9 +56,8 @@ $mech->submit_form_ok({
 );
 
 # check that you failed to login with a missing username 
-$mech->content_lacks('Hi');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_lacks('Logout');
+$mech->text_lacks('Customers');
 
 # try to login with a wrong password
 $mech->submit_form_ok({
@@ -72,9 +69,8 @@ $mech->submit_form_ok({
 );
 
 # check that you failed to login with a wrong password
-$mech->content_lacks('Hi');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_lacks('Logout');
+$mech->text_lacks('Customers');
 
 # check that you failed to login with a wrong username
 $mech->submit_form_ok({
@@ -86,9 +82,8 @@ $mech->submit_form_ok({
 );
 
 # check that you failed to login with a wrong username
-$mech->content_lacks('Hi');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_lacks('Logout');
+$mech->text_lacks('Customers');
 
 # login
 $mech->submit_form_ok({
@@ -100,21 +95,17 @@ $mech->submit_form_ok({
 );
 
 # check successfully logged in
-$mech->content_contains('Hi');
-$mech->content_contains('Mike');
-$mech->content_contains('Customers');
-$mech->content_contains('Logout');
+$mech->text_contains('Logout Mike');
+$mech->text_contains('Customers');
 
 # logout
-$mech->follow_link_ok({text => 'Logout'});
+$mech->follow_link_ok({text => 'Logout Mike'});
 
 # check successfully logged out
-$mech->content_contains('Staff Login');
-$mech->content_lacks('Hi');
-$mech->content_lacks('Mike');
-$mech->content_lacks('Jon');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_contains('Staff Login');
+$mech->text_lacks('Logout Mike');
+$mech->text_lacks('Logout Jon');
+$mech->text_lacks('Customers');
 
 $mech->follow_link_ok({text => 'Staff Login'});
 
@@ -128,21 +119,18 @@ $mech->submit_form_ok({
 );
 
 # check successfully logged in
-$mech->content_contains('Hi');
-$mech->content_contains('Jon');
-$mech->content_lacks('Mike');
-$mech->content_contains('Customers');
-$mech->content_contains('Logout');
+$mech->text_contains('Logout Jon');
+$mech->text_contains('Customers');
+$mech->text_lacks('Mike');
+$mech->text_contains('Customers');
 
 # logout
-$mech->follow_link_ok({text => 'Logout'});
+$mech->follow_link_ok({text => 'Logout Jon'});
 
 # check successfully logged out
-$mech->content_contains('Staff Login');
-$mech->content_lacks('Hi');
-$mech->content_lacks('Jon');
-$mech->content_lacks('Mike');
-$mech->content_lacks('Logout');
-$mech->content_lacks('Customers');
+$mech->text_contains('Staff Login');
+$mech->text_lacks('Logout Mike');
+$mech->text_lacks('Logout Jon');
+$mech->text_lacks('Customers');
 
 done_testing();

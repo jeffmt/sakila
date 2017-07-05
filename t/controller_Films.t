@@ -15,6 +15,7 @@ sub rand_string {
 
 my $page_X_of_X_regex = qr/Page\s(\d+)\sof\s\g{-1}\D/;
 my $page_1_of_X_regex = qr/Page\s1\sof\s\d+\D/;
+my $page_N_of_M_regex = qr/Page\s(\d+)\sof\s(\d+)\D/;
 
 ok( request('/films/list')->is_success, 'Request should succeed' );
 ok( request('/films')->is_redirect, 'Request should get redirected' );
@@ -27,16 +28,16 @@ $mech->get_ok('/films/list?sort=title');
 $mech->get_ok('/films/list?sort=rental_rate');
 
 $mech->title_is('Movies');
-$mech->content_contains('Staff Login');
-$mech->content_lacks('Logout');
+$mech->text_contains('Staff Login');
+$mech->text_lacks('Logout');
 
-$mech->follow_link_ok({text => 'Add a Movie'});
+$mech->get_ok( '/films/create' );
 
 # trying to add movie gets redirected to login
 $mech->title_is('Staff Login');
-$mech->content_contains('You need to login to view this page!');
-$mech->content_contains('Username');
-$mech->content_contains('Password');
+$mech->text_contains('You need to login to view this page!');
+$mech->text_contains('Username');
+$mech->text_contains('Password');
 
 # login
 $mech->submit_form_ok({
@@ -47,18 +48,17 @@ $mech->submit_form_ok({
   }, 'Logged in'
 );
 
-# successfully logged in, and greeted with 'Hi Jon'
-$mech->content_contains('Hi');
-$mech->content_contains('Jon');
+# successfully logged in, and greeted with 'Logout Jon'
+$mech->text_contains('Logout Jon');
 
 # successfully got to add movie page
 $mech->title_is('Create/Update Movie');
 
 # fail to add new movie since title, rental rate and description field are required
 $mech->submit();
-$mech->content_contains('Title field is required');
-$mech->content_contains('Description field is required');
-$mech->content_contains('Rental rate field is required');
+$mech->text_contains('Title field is required');
+$mech->text_contains('Description field is required');
+$mech->text_contains('Rental rate field is required');
 
 my $title = rand_string();
 
@@ -66,9 +66,9 @@ $mech->field('title', $title);
 $mech->submit();
 
 # fail to add new movie since rental rate and description field are required
-$mech->content_lacks('Title field is required');
-$mech->content_contains('Description field is required');
-$mech->content_contains('Rental rate field is required');
+$mech->text_lacks('Title field is required');
+$mech->text_contains('Description field is required');
+$mech->text_contains('Rental rate field is required');
 
 my $description = rand_string();
 $mech->field('title', $title);
@@ -76,9 +76,9 @@ $mech->field('description', $description);
 $mech->submit();
 
 # fail to add new movie since rental rate field is required
-$mech->content_lacks('Title field is required');
-$mech->content_lacks('Description field is required');
-$mech->content_contains('Rental rate field is required');
+$mech->text_lacks('Title field is required');
+$mech->text_lacks('Description field is required');
+$mech->text_contains('Rental rate field is required');
 
 $mech->submit_form_ok({
     fields => {
@@ -89,27 +89,22 @@ $mech->submit_form_ok({
   }
 );
 
-# successfully created new movie, which should be in list of movies
+# check that new movie was created successfully created new movie, which should be in list of movies
 $mech->title_is('Movies');
-$mech->content_contains('Film created.');
-my $not_found_new_movie = 1;
-while ($not_found_new_movie) {
-  my $page_content = $mech->content();
+$mech->text_contains("Film created");
 
-  if ($page_content =~ /$title/) {
-    $not_found_new_movie = 0;
-  }
-  elsif ($page_content =~ /$page_X_of_X_regex/) {
-    last;
-  }
-  else {
-    $mech->follow_link_ok({text => 'Next >'});
-  }
+# check that new movie shows up in list of movies
+while ( !$mech->find_link( text => $title ) ) {
+  $mech->follow_link_ok({text => 'Next >'});
+
+  my $page_text = $mech->text();
+
+  last if ($page_text =~ /$page_X_of_X_regex/);
 }
 
-$mech->content_contains($title);
-$mech->content_contains($description);
-$mech->content_contains('7.99');
+ok( $mech->find_link( text => $title ), "Newly created movie exists on movie listing page" );
+$mech->text_contains($description);
+$mech->text_contains('7.99');
 
 $mech->follow_link_ok({text => $title});
 
@@ -129,71 +124,74 @@ $mech->submit_form_ok({
 
 # successfully updated new movie, which should be in list of movies
 $mech->title_is('Movies');
-$mech->content_contains('Film updated.');
+$mech->text_contains('Film updated');
 
-my $not_found_edited_movie = 1;
-while ($not_found_edited_movie) {
-  my $page_content = $mech->content();
+while ( !$mech->find_link( text => $new_title ) ) {
+  $mech->follow_link_ok({text => 'Next >'});
 
-  if ($page_content =~ /$new_title/) {
-    $not_found_edited_movie = 0;
-  }
-  elsif ($page_content =~ /$page_X_of_X_regex/) {
-    last;
-  }
-  else {
-    $mech->follow_link_ok({text => 'Next >'});
-  }
+  my $page_text = $mech->text();
+
+  last if ($page_text =~ /$page_X_of_X_regex/);
 }
 
-$mech->content_contains($new_title);
-$mech->content_contains($new_description);
-$mech->content_contains('8.99');
+$mech->text_contains($new_title);
+$mech->text_contains($new_description);
+$mech->text_contains('8.99');
 
-
+# Test skip forward and back features
 $mech->follow_link_ok({text => 'Last >>'});
 
-$mech->content_like($page_X_of_X_regex);
+$mech->text_like($page_X_of_X_regex);
 
 $mech->follow_link_ok({text => 'Next >'});
 
-$mech->content_like($page_X_of_X_regex);
+$mech->text_like($page_X_of_X_regex);
 
 $mech->follow_link_ok({text => 'Skip Forward 5 >'});
 
-$mech->content_like($page_X_of_X_regex);
+$mech->text_like($page_X_of_X_regex);
 
-if ($mech->content =~ /$page_X_of_X_regex/) {
+if ($mech->text =~ /$page_X_of_X_regex/) {
   my $last_page = $1;
   my $expected_page = $last_page - 5;
+  $expected_page = 1 if $expected_page < 1;
 
   $mech->follow_link_ok({text => '< Skip Back 5'});
 
-  $mech->content_like(qr/Page\s$expected_page\sof\s\d+/);
+  $mech->text_like(qr/Page\s$expected_page\sof\s$last_page/);
 }
 
 $mech->follow_link_ok({text => '<< First'});
 
-$mech->content_like($page_1_of_X_regex);
+$mech->text_like($page_1_of_X_regex);
 
 $mech->follow_link_ok({text => '< Previous'});
 
-$mech->content_like($page_1_of_X_regex);
+$mech->text_like($page_1_of_X_regex);
 
-$mech->follow_link_ok({text => '< Skip Back 5'});
+if ($mech->text =~ /$page_N_of_M_regex/) {
+  my $current_page = $1;
+  my $last_page = $2;
 
-$mech->content_like($page_1_of_X_regex);
+  $mech->follow_link_ok({text => 'Skip Forward 5 >'});
 
-$mech->follow_link_ok({text => 'Skip Forward 5 >'});
+  my $expected_page = $current_page + 5;
+  $expected_page = $last_page if $expected_page > $last_page;
 
-$mech->content_like(qr/Page\s6\sof\s\d+/);
+  $mech->text_like(qr/Page\s$expected_page\sof\s$last_page/);
 
-$mech->follow_link_ok({text => 'Next >'});
+  $mech->follow_link_ok({text => 'Next >'});
 
-$mech->content_like(qr/Page\s7\sof\s\d+/);
+  $expected_page++;
+  $expected_page = $last_page if $expected_page > $last_page;
 
-$mech->follow_link_ok({text => '< Previous'});
+  $mech->text_like(qr/Page\s$expected_page\sof\s$last_page/);
 
-$mech->content_like(qr/Page\s6\sof\s\d+/);
+  $mech->follow_link_ok({text => '< Previous'});
+
+  $expected_page--;
+
+  $mech->text_like(qr/Page\s$expected_page\sof\s$last_page/);
+}
 
 done_testing();

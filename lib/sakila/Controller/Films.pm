@@ -74,7 +74,7 @@ sub object :Chained('authbase') :PathPart('id') :CaptureArgs(1) {
 sub edit : Chained('object') : PathPart('edit'): Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->stash->{msg} = "Film updated.";
+    $c->stash->{msg} = "Film updated";
 
     return $self->form($c, $c->stash->{object});
 }
@@ -87,6 +87,8 @@ sub create : Chained('authbase') : PathPart('create'): Args(0) {
     my ( $self, $c ) = @_;
 
     my $film = $c->stash->{resultset}->new_result({});
+
+    $c->stash->{msg} = sprintf("Film created");
 
     return $self->form($c, $film);
 }
@@ -107,7 +109,7 @@ sub form {
     return unless $form->validated;
 
     # Set a status message for the user & return to films list
-    $c->response->redirect($c->uri_for($self->action_for('list'), {status_msg => sprintf("Film '%s' created", $film->title)}));
+    $c->response->redirect($c->uri_for($self->action_for('list'), {status_msg => $c->stash->{msg}}));
 }
 
 =head2 list
