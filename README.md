@@ -4,10 +4,11 @@ This is a basic CRUD application implemented using Catalyst.  It uses
 DBIx::Class to access a MySQL sample database named 'sakila' that was 
 downloaded from the [MySQL site](https://dev.mysql.com/doc/index-other.html) 
 and included in this repository. The database has tables of movies, movie stars, customers and many others
-that one would expect to see in a movie rental system.
+that one would expect to see in a database system.
 
 This application features pages that list the movies, movie stars and 
-customers of the rental system, as well as functionality to add, edit and delete them.
+customers of the database system, as well as functionality to add, edit and delete them.
+Its purpose is to demo the capabilities of a Catalyst web application.
 
 # Setup
 
@@ -19,24 +20,27 @@ customers of the rental system, as well as functionality to add, edit and delete
 
 # Notes
 
-The left sidebar will have links to the login, logout, movie, movie star and customer pages.
+There are certain restricted areas and activities within the application that you must log in to gain access.  
+These restricted areas include access to the customer listings page and the ability to add, edit or delete 
+records from the system.  Trying to perform these actions will automatically redirect you to the login form.
 
-You will not see the links to or be able to access the logout and customer pages without logging in.  You will also
-not be able to add or edit movies, or add, edit or delete movie stars without logging in.  You will be redirected to the login page 
-if you try to perform these actions not logged in.
+The top navbar has links to the login, logout, movie, movie star and customer listing pages.  Initially you 
+will not see the logout or customer links in the navbar until after you login via the login link in the navbar.
+The movie and movie star nav links have dropdowns to add a new movie or movie star to the system.
 
-To login, click the 'Staff Login' link and use the username 'Mike' or 'Jon' and the password 'secretpassword'.  Once logged
-in, you will see the 'Staff Login' link replaced by a greeting.
+To login, click the 'STAFF LOGIN' link and use the username 'Mike' or 'Jon' and the password 'secretpassword'.
+Once logged in, you will see the login link replaced by a 'LOGOUT JON' or 'LOGOUT MIKE' link.
 
-To add movies and movie stars, click the 'Add...' link at the top of the page.
+The customer, movie and movie star pages are listings of the records in the system.  They are paged, and links 
+exist at the top and bottom of the listings to skip forward and back through the pages.  There are also column 
+headers, and the record listings are ordered by the column header that is in bold fontface.  Some column headers 
+are clickable, and clicking it will reorder the records by that column.  On the movie and movie star listing 
+pages, the movie title and movie star name are clickable, and clicking them will let you edit the record. 
 
-To edit movies and movie stars, click the movie title or movie star's name for that record.
+To delete a movie star, click the 'Delete' link on the right of the record row.  The delete link will only show if 
+the movie star does not star in any movies, so you must first edit the record and deselect his/her movies beforehand.  
 
-To delete a movie star, click the 'Delete' link on the right of the record row.  The 'Delete' link will not show if the movie star stars in any movies, so you must first edit the record and deselect his/her movies beforehand.  
-
-The functionality to delete movies has not been implemented yet.
-
-The listing of movies, movie stars and customers can be sorted by clicking on a clickable column header.
+The functionality to delete movies and customers has not been implemented.
 
 # Author
 Jeff T

@@ -9,8 +9,7 @@ __PACKAGE__->config({
         sakila->path_to( 'root', 'lib' )
     ],
     PRE_PROCESS  => 'config/main',
-#    WRAPPER      => 'site/wrapper',
-    WRAPPER      => 'site/wrapper2.tt2',
+    WRAPPER      => 'site/wrapper.tt2',
     ERROR        => 'error.tt2',
     TIMER        => 0,
     TEMPLATE_EXTENSION => '.tt2',

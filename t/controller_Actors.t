@@ -21,6 +21,7 @@ ok( request('/actors/list/nonexistant')->is_error, 'Request should fail' );
 my $mech = Test::WWW::Mechanize::Catalyst->new(catalyst_app => 'sakila');
 $mech->get_ok('/actors/list');
 
+like($mech->uri(), qr/actors\/list/, "At actors listing page");
 # check that you are at list of movie stars
 $mech->title_is('Movie Stars');
 $mech->content_contains('Staff Login');
@@ -28,7 +29,7 @@ $mech->content_contains('Staff Login');
 # check that you are not logged in
 $mech->content_lacks('Logout');
 
-$mech->follow_link_ok({text => 'Add Actor'});
+$mech->get_ok( '/actors/create' );
 
 # trying to add actor gets redirected to login
 $mech->title_is('Staff Login');
@@ -46,8 +47,6 @@ $mech->submit_form_ok({
 );
 
 # successfully logged in
-$mech->content_contains('Hi');
-$mech->content_contains('Mike');
 $mech->content_contains('Logout');
 
 # successfully got to add actor page
@@ -76,8 +75,11 @@ $mech->field('last_name', $last_name);
 $mech->click_ok('submit', "Create new actor");
 
 # check that a new actor was created
-$mech->content_contains('created');
-$mech->content_contains("$first_name $last_name");
+$mech->content_contains("Actor '$first_name $last_name' created");
+
+while (!($mech->find_link( text => $first_name ) && $mech->find_link( text => $last_name ))) {
+  $mech->follow_link_ok({text => 'Next >'});
+}
 
 # edit the new actor
 $mech->follow_link_ok({text => $first_name});
@@ -90,21 +92,36 @@ $mech->field('last_name', $last_name);
 $mech->click_ok('submit', "Update actor");
 
 # check that actor was updated
-$mech->content_contains("$first_name $last_name");
-$mech->content_contains('updated');
+$mech->content_contains("Actor '$first_name $last_name' updated");
 
-# delete actors
+while (!($mech->find_link( text => $new_first_name ) && $mech->find_link( text => $last_name ))) {
+  $mech->follow_link_ok({text => 'Next >'});
+}
+
+# delete new actor just created
 my @delete_links = $mech->find_all_links( text => 'Delete' );
 for my $delete_link (@delete_links) {
+
+  while (!$mech->find_link( url => $delete_link->url())) {
+    $mech->follow_link_ok({text => 'Next >'});
+  }
+
   $mech->follow_link_ok( { url => $delete_link->url() } );
 
   # check that actor was deleted
-  $mech->content_contains('Deleted actor');
+  $mech->content_contains("Deleted actor");
 }
 
-$mech->follow_link_ok({text => 'Movie Stars'});
+my $found_actor = 0;
+
+my $current_page_text;
+do {
+  $found_actor = 1 if ($mech->find_link( text => $new_first_name ) && $mech->find_link( text => $last_name ));
+  $current_page_text = $mech->text();
+  $mech->follow_link_ok({text => 'Next >'});
+} while (!$found_actor && $current_page_text !~ /page (\d+) of \g{-1}/i);
 
 # check that actor we deleted no longer shows in list 
-$mech->content_lacks("$new_first_name $last_name");
+is($found_actor, 0, "Actor deleted");
 
 done_testing();

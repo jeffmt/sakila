@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>[% template.title or "My Catalyst App!" %]</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">		
+		<link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<nav class="grouping flex-container">
+			<figure class="nav-flex-item1">
+				<img src="[% c.uri_for('/static/images/btn_88x31_powered.png') %]" width="88"/>	
+			</figure>
+			<h1 class="nav-flex-item2">[% template.title or site.title %]</h1>
+			<ul class="primary-nav grouping">
+				[% IF c.user_exists %]
+	              <li><a href="[% c.uri_for('/logout') %]">Logout <strong>[% c.user.username %]</strong></a></li>
+	              <li><a [% customers_active %] href="[% c.uri_for('/customer/list') %]">Customers</a></li>
+	            [% ELSE  %]
+	              <li><a [% IF !c.stash.customers_active && !c.stash.movies_active && !c.stash.movie_stars_active %] class="active" [% END %] href="[% c.uri_for('/login') %]">Staff Login</a></li>
+	            [% END %]
+				<li class="has-submenu"><a [% movies_active %] href="[% c.uri_for('/films/list') %]">Movies</a>
+					<ul>
+						<li><a href="[% c.uri_for('/films/create') %]">Add a Movie</a></li>
+					</ul>
+				</li>
+				<li class="has-submenu"><a [% movie_stars_active %] href="[% c.uri_for('/actors/list') %]">Movie Stars</a>
+					<ul>
+						<li><a href="[% c.uri_for('/actors/create') %]">Add a Movie Star</a></li>
+					</ul>
+				</li>
+			</ul>
+		</nav>
+		<section class="content">
+			[%# Status and error messages %]
+	        <span class="message">[% status_msg || c.request.params.status_msg | html %]</span>
+	        <span class="error">[% error_msg %]</span>
+	        [%# This is where TT will stick all of your template's contents. -%]
+			[% content %]			
+		</section>
+		<section class="flex-container">
+			<div id="footer" class="flex-item">Copyright &copy; [% USE Date; Date.format(format="%Y") %]</div>
+		</section>
+	</body>
+</html>

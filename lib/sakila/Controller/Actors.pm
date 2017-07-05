@@ -39,6 +39,7 @@ sub base :Chained('/login/not_required') :PathPart('actors') :CaptureArgs(0) {
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Actor'));
 
+    $c->stash(movie_stars_active=>'class="active"');
     $c->load_status_msgs;
 }
 
@@ -52,6 +53,7 @@ sub authbase :Chained('/login/required') :PathPart('actors') :CaptureArgs(0) {
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Actor'));
  
+    $c->stash(movie_stars_active=>'class="active"');
     $c->load_status_msgs;
 }
 
@@ -62,13 +64,32 @@ sub authbase :Chained('/login/required') :PathPart('actors') :CaptureArgs(0) {
 sub list :Chained('base') :PathPart('list'): Args(0) {
     my ( $self, $c ) = @_;
 
-    # Limit what the user can sort by
+    # Limit what the user can order by
     my %valid_order_by = (first_name => '', last_name => '');
-    my $order_by = ( defined $c->req->params->{sort} && exists $valid_order_by{$c->req->params->{sort}} ) ? $c->req->params->{sort} 
+    my $order_by = ( defined $c->req->params->{order_by} && exists $valid_order_by{$c->req->params->{order_by}} ) ? $c->req->params->{order_by} 
                  :                                                                                          'last_name'
                  ;
 
-    $c->stash(actors=>[$c->stash->{resultset}->search({}, {order_by => $order_by})]);
+    # set default page
+    my $page = $c->req->param('page') || 1;
+    $page = 1 if ( $page !~ /^\d+$/ );
+    $page = 1 if ( $page < 1 );
+
+    # set default rows per page
+    my $rows = $c->req->param('rows') || 50;
+    $rows = 50 if ( $rows !~ /^\d+$/ );
+    $rows = 50 if ( $rows < 1 );
+
+    my $result = $c->stash->{resultset}->search({}, {order_by => $order_by, rows => $rows, page => $page});
+
+    my $pager = $result->pager;
+
+    # if page is greater last page, set page to last page 
+    $result = $result->page($pager->last_page) if $page > $pager->last_page;
+    
+    $c->stash(actors=>[ $result->all() ]);
+    $c->stash(order_by=>$order_by);
+    $c->stash(pager=>$pager);
     $c->stash(template=>'actors/list.tt2');
 }
 

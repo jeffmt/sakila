@@ -36,6 +36,7 @@ Common logic to start chained dispatch
 sub base :Chained('/login/not_required') :PathPart('films') :CaptureArgs(0) {
     my ($self, $c) = @_;
  
+    $c->stash(movies_active=>'class="active"');
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Film'));
 }
@@ -47,6 +48,7 @@ sub base :Chained('/login/not_required') :PathPart('films') :CaptureArgs(0) {
 sub authbase :Chained('/login/required') :PathPart('films') :CaptureArgs(0) {
     my ($self, $c) = @_;
  
+    $c->stash(movies_active=>'class="active"');
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Film'));
 }
@@ -86,8 +88,6 @@ sub create : Chained('authbase') : PathPart('create'): Args(0) {
 
     my $film = $c->stash->{resultset}->new_result({});
 
-    $c->stash->{msg} = "Film created.";
-
     return $self->form($c, $film);
 }
 
@@ -107,7 +107,7 @@ sub form {
     return unless $form->validated;
 
     # Set a status message for the user & return to films list
-    $c->response->redirect($c->uri_for($self->action_for('list'), {status_msg => $c->stash->{msg}}));
+    $c->response->redirect($c->uri_for($self->action_for('list'), {status_msg => sprintf("Film '%s' created", $film->title)}));
 }
 
 =head2 list
@@ -117,9 +117,9 @@ sub form {
 sub list : Chained('base') : PathPart('list'): Args(0) {
     my ( $self, $c ) = @_;
 
-    # Limit what the user can sort by
+    # Limit what the user can order by
     my %valid_order_by = (title => '', rental_rate => '');
-    my $order_by = ( defined $c->req->params->{sort} && exists $valid_order_by{$c->req->params->{sort}} ) ? $c->req->params->{sort} 
+    my $order_by = ( defined $c->req->params->{order_by} && exists $valid_order_by{$c->req->params->{order_by}} ) ? $c->req->params->{order_by} 
                  :                                                                                          'title'
                  ;
 

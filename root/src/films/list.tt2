@@ -6,20 +6,19 @@
 [% # Note That the '-' at the beginning or end of TT code  -%]
 [% # "chomps" the whitespace/newline at that end of the    -%]
 [% # output (use View Source in browser to see the effect) -%]
- 
-<p>
-  <a href="[% c.uri_for(c.controller.action_for('create')) %]">Add a Movie</a>
-</p> 
+
 <p>
   Displaying entries [% pager.first %]-[% pager.last %] of [% pager.total_entries %]
 </p>
+
+[% INCLUDE jump_around.tt2 %]
 [% # Some basic HTML with a loop to display films -%]
 <table class="table table-striped">
 <tr>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'title' }) %]">Title</a></th>
+  <th>[% IF c.stash.order_by == 'title' %]<span class="emphasize">Title</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'title' }) %]">Title</a>[% END %]</th>
   <th>Description</th>
   <th>Language</th>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'rental_rate' }) %]">Rate</a></th>
+  <th>[% IF c.stash.order_by == 'rental_rate' %]<span class="emphasize">Rate</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'rental_rate' }) %]">Rate</a>[% END %]</th>
   <th>Actors</th>
 </tr>
 [% # Display each film in a table row %]
@@ -37,26 +36,4 @@
   </tr>
 [% END -%]
 </table>
-<div class="row">
-  <div class="col-md-1"> 
-    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.first_page }) %]"><< First</a>
-  </div>
-  <div class="col-md-3"> 
-    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.current_page - 5 }) %]">< Skip Back 5</a>
-  </div>
-  <div class="col-md-1"> 
-    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.previous_page }) %]">< Previous</a>
-  </div>
-  <div class="text-center col-md-2">
-    Page [% pager.current_page %] of [% pager.last_page %]
-  </div>
-  <div class="col-md-2"> 
-    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.current_page + 1 }) %]">Next ></a>
-  </div>
-  <div class="col-md-2"> 
-    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.current_page + 5 }) %]">Skip Forward 5 ></a>
-  </div>
-  <div class="col-md-1"> 
-    <a href="[% c.uri_for(c.controller.action_for('list'), { sort => order_by, page => pager.last_page }) %]">Last >></a>
-  </div>
-</div>
+[% INCLUDE jump_around.tt2 %]

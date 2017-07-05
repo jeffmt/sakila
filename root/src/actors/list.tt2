@@ -8,13 +8,15 @@
 [% # output (use View Source in browser to see the effect) -%]
  
 <p>
-  <a href="[% c.uri_for(c.controller.action_for('create')) %]">Add Actor</a>
+  Displaying entries [% pager.first %]-[% pager.last %] of [% pager.total_entries %]
 </p>
+
+[% INCLUDE jump_around.tt2 %]
 [% # Some basic HTML with a loop to display actors -%]
 <table class="table table-striped">
 <tr>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'first_name' }) %]">First Name</a></th>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'last_name' }) %]">Last Name</a></th>
+  <th>[% IF c.stash.order_by == 'first_name' %]<span class="emphasize">First Name</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'first_name' }) %]">First Name</a>[% END %]</th>
+  <th>[% IF c.stash.order_by == 'last_name' %]<span class="emphasize">Last Name</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'last_name' }) %]">Last Name</a>[% END %]</th>
   <th>Films</th>
   <th></th>
 </tr>
@@ -38,3 +40,4 @@
   </tr>
 [% END -%]
 </table>
+[% INCLUDE jump_around.tt2 %]

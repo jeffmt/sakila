@@ -27,6 +27,7 @@ requires 'Catalyst::Plugin::StatusMessage';
 requires 'CatalystX::SimpleLogin';
 requires 'DBIx::Class::PassphraseColumn';
 requires 'DBIx::Class::TimeStamp';
+requires 'Template::Plugin::Date';
 requires 'Catalyst::Model::DBIC::Schema';
 requires 'CatalystX::Component::Traits';
 requires 'HTML::FormFu::MultiForm';

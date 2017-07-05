@@ -7,12 +7,17 @@
 [% # "chomps" the whitespace/newline at that end of the    -%]
 [% # output (use View Source in browser to see the effect) -%]
  
+<p>
+  Displaying entries [% pager.first %]-[% pager.last %] of [% pager.total_entries %]
+</p>
+
+[% INCLUDE jump_around.tt2 %]
 [% # Some basic HTML with a loop to display customers -%]
 <table class="table table-striped">
 <tr>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'first_name' }) %]">First Name</a></th>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'last_name' }) %]">Last Name</a></th>
-  <th><a href="[% c.uri_for(c.controller.action_for('list'), { sort => 'email' }) %]">Email</a></th>
+  <th>[% IF c.stash.order_by == 'first_name' %]<span class="emphasize">First Name</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'first_name' }) %]">First Name</a>[% END %]</th>
+  <th>[% IF c.stash.order_by == 'last_name' %]<span class="emphasize">Last Name</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'last_name' }) %]">Last Name</a>[% END %]</th>
+  <th>[% IF c.stash.order_by == 'email' %]<span class="emphasize">Email</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'email' }) %]">Email</a>[% END %]</th>
 </tr>                                                        
 [% # Display each customer in a table row %]
 [% FOREACH customer IN customers -%]
@@ -23,3 +28,4 @@
   </tr>
 [% END -%]
 </table>
+[% INCLUDE jump_around.tt2 %]
