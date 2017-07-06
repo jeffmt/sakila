@@ -98,6 +98,8 @@ Vagrant.configure("2") do |config|
     # install CPAN modules
     sudo cpanm --notest --force HTML::FormFu::Model::DBIC HTML::FormHandler::Model::DBIC CatalystX::SimpleLogin DBIx::Class::TimeStamp Catalyst::Plugin::StatusMessage DBIx::Class::PassphraseColumn Catalyst::Model::DBIC::Schema CatalystX::Component::Traits HTML::FormFu::MultiForm MooseX::Traits::Pluggable Test::WWW::Mechanize::Catalyst Test::Pod::Coverage
 
+    sudo cpanm --notest --force --sudo HTML::FormFu::Model::DBIC
+
     # run script to set passwords in staff table in database
     perl -I/home/vagrant/sakila/lib /home/vagrant/sakila/set_hashed_passwords.pl
 
