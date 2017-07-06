@@ -103,6 +103,7 @@ nav li a:focus,
 nav li a:hover {
   background-color: #ff9999;
   color: #fff; 
+  text-decoration: none; 
 }
 
 nav li a.active {
@@ -152,20 +153,28 @@ Drop Down Menu
 Flexbox
 ****************/
 .flex-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .nav-flex-item1 {
-  flex-grow: 1;
+  flex: 1;
 }
 .nav-flex-item2 {
-  flex-grow: 2;
+  -wekit-box-flex: 2;
+  -moz-box-flex: 2;
+  -wekit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
   text-align: center;
 }
 .flex-item {
   padding: 10px;
-  flex-grow: 1;
+  flex: 1;
   text-align: center;
 }
 /****************
@@ -202,4 +211,28 @@ strong {
 .emphasize{
     font-weight: bold;
     font-size: 1.05em;
+}
+/****************
+Buttons
+****************/
+.button {
+  border: 1px solid #766e65;
+  color: #766e65;
+  padding: 2px 0px;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  -webkit-transition: 0.15s background-color linear;
+  -moz-transition: 0.15s background-color linear;
+  -o-transition: 0.15s background-color linear;
+  transition: .15s background-color linear;
+}
+.button:focus,
+.button:hover {
+  background-color: #ff9999;
+  color: #fff;
+  text-decoration: none; 
+  transform: scale(1.1,1.1) translate(0, -2px); 
 }
