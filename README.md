@@ -18,6 +18,8 @@ Its purpose is to demo the capabilities of a Catalyst web application.
 4. type `cd sakila`, followed by `vagrant up` and wait for the message `done`
 5. point your browser to http://localhost:3000 to view the application
 
+The site looks best on modern browsers.
+
 # Notes
 
 There are certain restricted areas and activities within the application that you must log in to gain access.  
