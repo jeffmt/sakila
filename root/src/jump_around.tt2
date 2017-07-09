@@ -1,9 +1,18 @@
-<section class="flex-container">
-  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.first_page }) %]">&lt;&lt; First</a></div>
-  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page - 5 }) %]">&lt; Skip Back 5</a></div>
-  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.previous_page }) %]">&lt; Previous</a></div>
+<section class="lg-flex-container">
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.first_page }) %]"><i class="material-icons">skip_previous</i>First</a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page - 5 }) %]"><i class="material-icons">fast_rewind</i>Back 5</a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.previous_page }) %]"><i class="material-icons">navigate_before</i>Previous</a></div>
   <div class="flex-item">Page [% pager.current_page %] of [% pager.last_page %]</div>
-  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page + 1 }) %]">Next &gt;</a></div>
-  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page + 5 }) %]">Skip Forward 5 &gt;</a></div>
-  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.last_page }) %]">Last &gt;&gt;</a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page + 1 }) %]">Next<i class="material-icons">navigate_next</i></a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page + 5 }) %]">Next 5<i class="material-icons">fast_forward</i></a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.last_page }) %]">Last<i class="material-icons">skip_next</i></a></div>
+</section>
+<section class="sm-flex-container">
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.first_page }) %]"><i class="material-icons">skip_previous</i></a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page - 5 }) %]"><i class="material-icons">fast_rewind</i></a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.previous_page }) %]"><i class="material-icons">navigate_before</i></a></div>
+  <div class="flex-item">Page [% pager.current_page %] of [% pager.last_page %]</div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page + 1 }) %]"><i class="material-icons">navigate_next</i></a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.current_page + 5 }) %]"><i class="material-icons">fast_forward</i></a></div>
+  <div class="flex-item"><a class="button" href="[% c.uri_for(c.controller.action_for('list'), { order_by => order_by, page => pager.last_page }) %]"><i class="material-icons">skip_next</i></a></div>
 </section>

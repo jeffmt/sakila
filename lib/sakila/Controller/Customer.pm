@@ -78,7 +78,6 @@ sub list :Chained('authbase') :PathPart('list'): Args(0) {
     # if page is greater last page, set page to last page 
     $result = $result->page($pager->last_page) if $page > $pager->last_page;
 
-    $c->stash(customers_active=>'class="active"');
     $c->stash(customers=>[ $result->all() ]);
     $c->stash(order_by=>$order_by);
     $c->stash(pager=>$pager);

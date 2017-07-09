@@ -4,30 +4,32 @@
 		<meta charset="utf-8">
 		<title>[% template.title or "My Catalyst App!" %]</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">		
-		<link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" />
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" >
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	</head>
 	<body>
-		<nav class="grouping flex-container">
+    <nav class="grouping nav-flex-container">
 			<figure class="nav-flex-item1">
-				<img src="[% c.uri_for('/static/images/btn_88x31_powered.png') %]" width="88"/>	
+        <img src="[% c.uri_for('/static/images/btn_120x50_powered.png') %]" width="120"/>
 			</figure>
 			<h1 class="nav-flex-item2">[% template.title or site.title %]</h1>
+      <div class="mobile-menu-icon"></div>
 			<ul class="primary-nav grouping">
 				[% IF c.user_exists %]
-	              <li><a href="[% c.uri_for('/logout') %]">Logout <strong>[% c.user.username %]</strong></a></li>
-	              <li><a [% customers_active %] href="[% c.uri_for('/customer/list') %]">Customers</a></li>
-	            [% ELSE  %]
-	              <li><a [% IF !c.stash.customers_active && !c.stash.movies_active && !c.stash.movie_stars_active %] class="active" [% END %] href="[% c.uri_for('/login') %]">Staff Login</a></li>
-	            [% END %]
-				<li class="has-submenu"><a [% movies_active %] href="[% c.uri_for('/films/list') %]">Movies</a>
+          <li><a id="logout" class="menu-item" href="[% c.uri_for('/logout') %]">Logout <strong>[% c.user.username %]</strong></a></li>
+          <li><a id="customers" class="menu-item" href="[% c.uri_for('/customer/list') %]">Customers</a></li>
+        [% ELSE  %]
+          <li><a id="login" class="menu-item" href="[% c.uri_for('/login') %]">Staff Login</a></li>
+        [% END %]
+				<li class="has-submenu"><a id="movies" class="menu-item" href="[% c.uri_for('/films/list') %]">Movies</a>
 					<ul>
-						<li><a href="[% c.uri_for('/films/create') %]">Add a Movie</a></li>
+						<li><a id="add-movie" class="menu-item" href="[% c.uri_for('/films/create') %]">Add a Movie</a></li>
 					</ul>
 				</li>
-				<li class="has-submenu"><a [% movie_stars_active %] href="[% c.uri_for('/actors/list') %]">Movie Stars</a>
+				<li class="has-submenu"><a id="movie-stars" class="menu-item" href="[% c.uri_for('/actors/list') %]">Movie Stars</a>
 					<ul>
-						<li><a href="[% c.uri_for('/actors/create') %]">Add a Movie Star</a></li>
+						<li><a id="add-movie-star" class="menu-item" href="[% c.uri_for('/actors/create') %]">Add a Movie Star</a></li>
 					</ul>
 				</li>
 			</ul>
@@ -42,5 +44,9 @@
 		<section class="flex-container">
 			<div id="footer" class="flex-item">Copyright &copy; [% USE Date; Date.format(format="%Y") %]</div>
 		</section>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="[% c.uri_for('/static/js/scripts.js') %]"></script>
+
 	</body>
 </html>

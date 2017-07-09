@@ -39,7 +39,6 @@ sub base :Chained('/login/not_required') :PathPart('actors') :CaptureArgs(0) {
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Actor'));
 
-    $c->stash(movie_stars_active=>'class="active"');
     $c->load_status_msgs;
 }
 
@@ -53,7 +52,6 @@ sub authbase :Chained('/login/required') :PathPart('actors') :CaptureArgs(0) {
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Actor'));
  
-    $c->stash(movie_stars_active=>'class="active"');
     $c->load_status_msgs;
 }
 

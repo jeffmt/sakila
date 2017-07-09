@@ -50,6 +50,31 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+:focus {
+  outline: none;
+}
+strong {
+  font-weight: bold; 
+}
+/* micro clear fix */
+.grouping:before,
+.grouping:after {
+  content: " ";
+  display: table; 
+}
+.grouping:after {
+  clear: both; 
+}
+img, iframe, video, object {
+  max-width: 100%; 
+}
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
 
 /****************
 nav
@@ -65,7 +90,9 @@ nav {
 }
 
 nav figure {
+  margin-top: 12px;
   margin-left: 18px;
+  margin-bottom: 3px;
 }
 
 nav > h1 {
@@ -110,6 +137,18 @@ nav li a.active {
   background-color: #eb2428;
   color: #fff; 
 }
+.mobile-menu-icon {
+  background: url('../images/mobile-menu-icon.png') 0 0 no-repeat;
+  width: 30px;
+  height: 26px;
+  float: right;
+  margin: 22px 22px 22px 0;
+  cursor: pointer;
+  display: none;
+}
+.mobile-menu-icon.open {
+  background-image: url('../images/mobile-menu-close-icon.png');
+}
 /****************
 Drop Down Menu
 ****************/
@@ -152,7 +191,7 @@ Drop Down Menu
 /****************
 Flexbox
 ****************/
-.flex-container {
+.nav-flex-container {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -160,6 +199,18 @@ Flexbox
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.lg-flex-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sm-flex-container {
+  display: none;
 }
 .nav-flex-item1 {
   flex: 1;
@@ -192,7 +243,6 @@ content
 .error {
     color: #f00;
 }
-
 input {
     display: block;
 }
@@ -235,4 +285,100 @@ Buttons
   color: #fff;
   text-decoration: none; 
   transform: scale(1.1,1.1) translate(0, -2px); 
+}
+
+/****************
+Media Queries
+****************/
+@media screen and (max-width: 1000px) {
+  .lg-flex-container {
+    display: none;
+  }
+
+  .sm-flex-container {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content {
+    margin-top: 40px;
+  }
+  nav {
+    position: static;
+  }
+  .primary-nav {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    -webkit-transition: all ease-in-out .35s
+    -moz-transition: all ease-in-out .35s
+    -o-transition: all ease-in-out .35s
+    transition: all ease-in-out .35s
+  }
+  .primary-nav.focused {
+    max-height: 350px;
+  }
+  .primary-nav > li {
+    float: right;
+    width: 100%;
+  }
+  .primary-nav > li > a {
+    padding: 15px 25px 15px 0;
+    width: 100%;
+    border-bottom: 1px solid #ada791;
+    border-left: none;
+    font-size: 20px;
+  }
+  nav figure {
+    margin-top: 12px;
+    margin-left: 18px;
+    margin-bottom: 3px;
+  }
+  .has-submenu a {
+    padding: 15px 0;
+    font-size: 20px;
+  }
+  .has-submenu ul {
+    position: static;
+    display: block;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    border-bottom: 1px solid #ada791;
+  }
+  .has-submenu:hover ul {
+    -webkit-animation: none;
+    animation: none;
+  }
+  .mobile-menu-icon {
+    display: block;
+  }
+  .nav-flex-container {
+    display: block;
+  }
+  .nav-flex-item1 {
+    float: left;
+    width: 20%;
+  }
+  .nav-flex-item2 {
+    width: 60%;
+    float: left;
+    text-align: center;
+    margin-top: 15px;
+  }
+  .material-icons {
+    padding: 15px;
+  }
+} /* close media query */
+
+/****************
+icons
+****************/
+.material-icons {
+  vertical-align: bottom;
 }

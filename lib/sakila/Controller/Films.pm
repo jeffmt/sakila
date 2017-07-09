@@ -36,7 +36,6 @@ Common logic to start chained dispatch
 sub base :Chained('/login/not_required') :PathPart('films') :CaptureArgs(0) {
     my ($self, $c) = @_;
  
-    $c->stash(movies_active=>'class="active"');
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Film'));
 }
@@ -48,7 +47,6 @@ sub base :Chained('/login/not_required') :PathPart('films') :CaptureArgs(0) {
 sub authbase :Chained('/login/required') :PathPart('films') :CaptureArgs(0) {
     my ($self, $c) = @_;
  
-    $c->stash(movies_active=>'class="active"');
     # Store the ResultSet in stash so it's available for other methods
     $c->stash(resultset => $c->model('DB::Film'));
 }
