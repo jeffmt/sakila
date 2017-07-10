@@ -4,6 +4,7 @@
 		<meta charset="utf-8">
 		<title>[% template.title or "My Catalyst App!" %]</title>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">		
+    <link rel="stylesheet" href="[% c.uri_for('/static/css/icons.css') %]" >
     <link rel="stylesheet" href="[% c.uri_for('/static/css/main.css') %]" >
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -42,8 +43,11 @@
 			[% content %]			
 		</section>
 		<section class="flex-container">
-			<div id="footer" class="flex-item">Copyright &copy; [% USE Date; Date.format(format="%Y") %]</div>
+      <div class="flex-item"><a href="https://github.com/jeffmt/sakila"><span class="icon fi-social-github"></span>Github</a></div>
 		</section>
+		<footer class="flex-container">
+			<div id="copyright" class="flex-item">Copyright &copy; [% USE Date; Date.format(format="%Y") %]</div>
+		</footer>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="[% c.uri_for('/static/js/scripts.js') %]"></script>
