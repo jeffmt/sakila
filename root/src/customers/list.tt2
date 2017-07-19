@@ -13,7 +13,7 @@
 
 [% INCLUDE jump_around.tt2 %]
 [% # Some basic HTML with a loop to display customers -%]
-<table class="table table-striped">
+<table class="table table-striped table-bordered table-hover">
 <tr>
   <th>[% IF c.stash.order_by == 'first_name' %]<span class="emphasize">First Name</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'first_name' }) %]">First Name</a>[% END %]</th>
   <th>[% IF c.stash.order_by == 'last_name' %]<span class="emphasize">Last Name</span>[% ELSE %]<a href="[% c.uri_for(c.controller.action_for('list'), { order_by => 'last_name' }) %]">Last Name</a>[% END %]</th>
