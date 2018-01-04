@@ -46,3 +46,15 @@ The functionality to delete movies and customers has not been implemented.
 
 # Author
 Jeff T
+
+![Movies Screen](Movies.png "Movies Screen")
+
+![Login Screen](StaffLogin.png "Login Screen")
+
+![Customers Screen](Customers.png "Customers Screen")
+
+![Movie Stars Screen](MovieStars.png "Movie Stars Screen")
+
+![Create Movie Screen](CreateMovie.png "Create Movie Screen")
+
+![Create Actor Screen](CreateActor.png "Create Actor Screen")
