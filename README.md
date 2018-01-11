@@ -44,17 +44,24 @@ the movie star does not star in any movies, so you must first edit the record an
 
 The functionality to delete movies and customers has not been implemented.
 
-# Author
-Jeff T
-
+## Movies Page
 ![Movies Screen](Movies.png "Movies Screen")
 
+## Login Form
 ![Login Screen](StaffLogin.png "Login Screen")
 
+## Customers Page
 ![Customers Screen](Customers.png "Customers Screen")
 
+## Movie Stars Page
 ![Movie Stars Screen](MovieStars.png "Movie Stars Screen")
 
+## Create New Movie Form
 ![Create Movie Screen](CreateMovie.png "Create Movie Screen")
 
+## Create New Movie Star Form
 ![Create Actor Screen](CreateActor.png "Create Actor Screen")
+
+
+# Author
+Jeff T
